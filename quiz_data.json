@@ -1,0 +1,23 @@
+[
+	{
+		"question": "Как называется закусочная, в которой Моника работала официанткой?",
+		"message": "Закусочная называется Moondance — \"Лунный танец\"",
+		"answers": "Jack Rabbit Slims, asd",
+		"question_image": "3dinner.jpg",
+		"answer_image\r": "3diner0.jpg\r"
+	},
+	{
+		"question": "В каком городе живут друзья?",
+		"message": "Наши герои жувит в Нью-Йорке!",
+		"answers": "Готэм-Сити",
+		"question_image": "city.jpg",
+		"answer_image\r": "city0.jpg\r"
+	},
+	{
+		"question": "Марсель в сериале это:",
+		"message": "Так звали домашнее животное Росса. Марсель — обезьянка!",
+		"answers": "Город",
+		"question_image": "question.png",
+		"answer_image\r": "marcel0.png"
+	}
+]
