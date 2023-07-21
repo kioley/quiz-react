@@ -9,7 +9,15 @@ export default {
     },
     extend: {
       backgroundImage: {
-        "img-main": 'url("src/assets/background.jpeg")',
+        "img-main": 'url("../src/assets/background.jpeg")',
+        button: 'url("../src/assets/gui/button.svg")',
+        "button-hover": 'url("../src/assets/gui/button-hover.svg")',
+        "button-right": 'url("../src/assets/gui/button-right.svg")',
+        "button-wrong": 'url("../src/assets/gui/button-wrong.svg")',
+        // "button-active": 'url("src/assets/gui/button-wrong.svg")',
+      },
+      dropShadow: {
+        glow: "120px 80px 40px 20px white",
       },
     },
   },

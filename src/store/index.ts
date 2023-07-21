@@ -1,33 +1,69 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import data from "../data/friends-quiz-data.json"
+import { IState, ModalRoles, Screens } from "./model"
+import rightSoundPath from "../assets/sound/right.mp3"
+import wrongSoundPath from "../assets/sound/wrong.mp3"
+import clickSoundPath from "../assets/sound/click.mp3"
 
 function zusim<T>(store: T) {
   return create(immer<T>(() => store))
 }
 
 export const useQuizStore = zusim<IState>({
+  screen: Screens.Quiz,
+  livesCount: 3,
+  gainsCount: 3,
+  activeQuestionNumber: 0,
   questions: data,
+  modal: {
+    active: false,
+    role: ModalRoles.Right,
+    message: "Hello Kitty!",
+    image: "question.png",
+  },
 })
 
 const [set, get] = [useQuizStore.setState, useQuizStore.getState]
 
-// export async function queryTasks() {
-//   const response = await fetch(
-//     `https://dummyjson.com/todos/user/${Math.floor(Math.random() * 50) + 1}`
-//   ).then((res) => res.json())
+console.log(get())
 
-//   set((state) => {
-//     state.tasks.splice(0, 0, ...response.todos)
-//   })
-//   // console.log(response.todos)
-//   // console.log(get().tasks)
-//   const tasks = get().tasks
-//   tasks.length && (id = tasks[tasks.length - 1].id)
-// }
+export function choiceAnswer(answer: string) {
+  const state = get()
+  const question = state.questions[state.activeQuestionNumber]
+  const right = answer === question.answers[0]
 
-// export function toggleTaskDone(id: number) {
-//   set((state) => {
-//     state.tasks.forEach((task) => task.id === id && (task.done = !task.done))
-//   })
-// }
+  set((state) => {
+    !right && state.livesCount--
+    console.log(state.livesCount)
+    if (right) {
+      new Audio(rightSoundPath).play()
+      state.modal = {
+        active: true,
+        role: ModalRoles.Right,
+        message: question.message,
+        image: "/images/" + question.answer_image,
+      }
+    } else {
+      new Audio(wrongSoundPath).play()
+    }
+  })
+
+  return right
+}
+
+export function setScreen(screen: Screens) {
+  set((state) => {
+    state.screen = screen
+  })
+}
+
+export function start(complexity: number) {
+  const lives = [3, 2, 1]
+  set((state) => {
+    state.livesCount = lives[complexity]
+    state.screen = Screens.Quiz
+  })
+  new Audio(clickSoundPath).play()
+  return false
+}
