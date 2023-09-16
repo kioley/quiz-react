@@ -8,12 +8,5 @@ export function StateRouter({
   children: ReactElement<routeProps, JSXElementConstructor<routeProps>>[]
   screen: number
 }) {
-  console.log("router-route props", children[1].props)
-
-  return (
-    <>
-      router
-      {children.filter((c) => c.props.screen === screen)}
-    </>
-  )
+  return <>{children.filter((c) => c.props.screen === screen)}</>
 }

@@ -1,7 +1,7 @@
-import IconBar from "./IconBar"
+import { IconBar } from "./IconBar"
 import starImgURL from "/src/assets/gui/star.png"
 import heartImgURL from "/src/assets/gui/heart.png"
-import ProgressBar from "./ProgressBar"
+import { ProgressBar } from "./ProgressBar"
 import { useQuizStore } from "../../store"
 
 function Hud() {

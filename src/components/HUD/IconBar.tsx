@@ -1,4 +1,4 @@
-function IconBar({
+export function IconBar({
   url,
   name,
   count,
@@ -7,8 +7,6 @@ function IconBar({
   name: string
   count: number
 }) {
-  console.log(url, name)
-
   return (
     <div className="basis-1/5 flex flex-row">
       {[...Array(count)].map((_, i) => (
@@ -19,5 +17,3 @@ function IconBar({
     </div>
   )
 }
-
-export default IconBar

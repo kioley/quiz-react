@@ -1,55 +1,47 @@
-import { create } from "zustand"
-import { immer } from "zustand/middleware/immer"
-import data from "../data/friends-quiz-data.json"
-import { IState, ModalRoles, Screens } from "./model"
-import rightSoundPath from "../assets/sound/right.mp3"
-import wrongSoundPath from "../assets/sound/wrong.mp3"
-import clickSoundPath from "../assets/sound/click.mp3"
+import { IState, Screens, ModalRoles } from "./model"
+import rightSoundPath from "../assets/audio/right.mp3"
+import wrongSoundPath from "../assets/audio/wrong.mp3"
+import clickSoundPath from "../assets/audio/click.mp3"
+import { getAnswer, getQuestion, rotateQuestions } from "./quizData"
+import { zusim } from "../utils/zusim"
 
-function zusim<T>(store: T) {
-  return create(immer<T>(() => store))
-}
+const rightSound = new Audio(rightSoundPath)
+const wrongSound = new Audio(wrongSoundPath)
+const clickSound = new Audio(clickSoundPath)
 
 export const useQuizStore = zusim<IState>({
-  screen: Screens.Quiz,
+  screen: Screens.Menu,
   livesCount: 3,
   gainsCount: 3,
-  activeQuestionNumber: 0,
-  questions: data,
   modal: {
+    title: "",
+    message: "",
+    image: "",
     active: false,
-    role: ModalRoles.Right,
-    message: "Hello Kitty!",
-    image: "question.png",
+    role: ModalRoles.Answer,
+  },
+  question: {
+    question: "",
+    message: "",
+    answers: [],
+    image: "",
   },
 })
 
 const [set, get] = [useQuizStore.setState, useQuizStore.getState]
 
-console.log(get())
+export function start(difficulty: number) {
+  setDifficulty(difficulty)
+  setScreen(Screens.Quiz)
+  setQuestion()
+  clickSound.play()
+}
 
-export function choiceAnswer(answer: string) {
-  const state = get()
-  const question = state.questions[state.activeQuestionNumber]
-  const right = answer === question.answers[0]
-
+function setDifficulty(difficulty: number) {
+  const lives = [3, 2, 1]
   set((state) => {
-    !right && state.livesCount--
-    console.log(state.livesCount)
-    if (right) {
-      new Audio(rightSoundPath).play()
-      state.modal = {
-        active: true,
-        role: ModalRoles.Right,
-        message: question.message,
-        image: "/images/" + question.answer_image,
-      }
-    } else {
-      new Audio(wrongSoundPath).play()
-    }
+    state.livesCount = lives[difficulty]
   })
-
-  return right
 }
 
 export function setScreen(screen: Screens) {
@@ -58,12 +50,41 @@ export function setScreen(screen: Screens) {
   })
 }
 
-export function start(complexity: number) {
-  const lives = [3, 2, 1]
+function setQuestion() {
   set((state) => {
-    state.livesCount = lives[complexity]
-    state.screen = Screens.Quiz
+    state.question = getQuestion()
   })
-  new Audio(clickSoundPath).play()
-  return false
+}
+
+export function choiceAnswer(answer: string) {
+  const right = answer === get().question.answers[0]
+
+  if (right) {
+    const answer = getAnswer()
+    set((state) => {
+      state.modal = {
+        title: "Правильно!",
+        message: answer.message,
+        image: answer.image,
+        active: true,
+        role: ModalRoles.Answer,
+      }
+    })
+    rightSound.play()
+  } else {
+    set((state) => {
+      state.livesCount--
+    })
+    wrongSound.play()
+  }
+
+  return right
+}
+
+export function nextQuestion() {
+  set((state) => {
+    rotateQuestions()
+    state.modal.active = false
+  })
+  setQuestion()
 }

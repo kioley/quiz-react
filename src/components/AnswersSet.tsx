@@ -1,14 +1,8 @@
-// import { shuffleAnswers } from "../store"
-
 import { choiceAnswer, useQuizStore } from "../store"
 import { Button } from "./Button"
 
-// const buttonsNumbers = [0, 1, 2, 3]
-
 export function AnswersSet() {
-  const answers = [
-    ...useQuizStore((s) => s.questions[s.activeQuestionNumber].answers),
-  ]
+  const answers = [...useQuizStore((s) => s.question.answers)]
   answers.sort(() => Math.random() - 0.5)
 
   return (

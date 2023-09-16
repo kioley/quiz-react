@@ -2,17 +2,23 @@ export interface IState {
   screen: Screens
   livesCount: number
   gainsCount: number
-  activeQuestionNumber: number
-  questions: IQuestion[]
-  modal: Modal
+  modal: IModal
+  question: IQuestion
 }
 
 interface IQuestion {
   question: string
   message: string
   answers: string[]
-  question_image: string
-  answer_image: string
+  image: string
+}
+
+interface IModal {
+  title: string
+  message: string
+  image: string
+  active: boolean
+  role: ModalRoles
 }
 
 export enum Screens {
@@ -20,16 +26,7 @@ export enum Screens {
   Quiz,
 }
 
-interface Modal {
-  active: boolean
-  role: ModalRoles
-  message: string
-  image: string
-}
-
 export enum ModalRoles {
-  Right,
-  Wrong,
-  Win,
-  Lose,
+  Answer,
+  GameOver,
 }

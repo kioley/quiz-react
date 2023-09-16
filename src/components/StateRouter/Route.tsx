@@ -6,7 +6,5 @@ export interface routeProps {
 }
 
 export function Route({ element }: routeProps) {
-  // console.log("route");
-  // console.log();
-  return <>routeeee{element}</>
+  return <>{element}</>
 }
