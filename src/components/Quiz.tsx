@@ -1,20 +1,32 @@
-import { nextQuestion, useQuizStore } from "../store"
+import { onEndModalOk, onAnswerModalOk, useQuizStore } from "../store"
 import { AnswersSet } from "./AnswersSet"
 import HUD from "./HUD"
-import { Modal } from "./Modal"
+import { AnswerModal } from "./AnswerModal"
+import { EndModal } from "./EndModal"
 
 export function Quiz() {
   const question = useQuizStore((s) => s.question)
-  const isModalActive = useQuizStore((s) => s.modal.active)
+  const isEndModalActive = useQuizStore((s) => s.endModal.isActive)
+  const isAnswerModalActive = useQuizStore((s) => s.answerModal.isActive)
+
   return (
     <>
-      <HUD />
-      <p className="text-[5cqi] text-white text-center">{question.question}</p>
-      <div className="basis-1/3 flex items-center">
-        <img src={question.image} alt="Image" />
+      <div className="h-full flex flex-col justify-between items-center ">
+        <HUD />
+        <div className="h-[20%] mt-[5%] flex items-center">
+          <p className="text-[5cqi] text-white text-center">
+            {question.question}
+          </p>
+        </div>
+        <div className="h-[40%] flex items-center">
+          <img src={question.image} alt="Image" className="max-h-full" />
+        </div>
+        <div className="h-[40%] w-full mt-[5%] mb-[3%]">
+          <AnswersSet />
+        </div>
       </div>
-      <AnswersSet />
-      {isModalActive && <Modal onModalOk={nextQuestion} />}
+      {isAnswerModalActive && <AnswerModal onModalOk={onAnswerModalOk} />}
+      {isEndModalActive && <EndModal onModalOk={onEndModalOk} />}
     </>
   )
 }

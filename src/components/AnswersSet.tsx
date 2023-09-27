@@ -1,4 +1,4 @@
-import { choiceAnswer, useQuizStore } from "../store"
+import { onChoiceAnswer, useQuizStore } from "../store"
 import { Button } from "./Button"
 
 export function AnswersSet() {
@@ -6,9 +6,9 @@ export function AnswersSet() {
   answers.sort(() => Math.random() - 0.5)
 
   return (
-    <div className="w-[73%] basis-[40%] mb-2 flex flex-col justify-between items-center">
+    <div className="flex flex-col justify-between items-center w-full h-full">
       {answers.map((answer, i) => (
-        <Button key={i} label={answer} onClick={() => choiceAnswer(answer)} />
+        <Button key={i} label={answer} onClick={() => onChoiceAnswer(answer)} />
       ))}
     </div>
   )

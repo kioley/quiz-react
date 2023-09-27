@@ -1,90 +1,59 @@
-import { IState, Screens, ModalRoles } from "./model"
-import rightSoundPath from "../assets/audio/right.mp3"
-import wrongSoundPath from "../assets/audio/wrong.mp3"
-import clickSoundPath from "../assets/audio/click.mp3"
-import { getAnswer, getQuestion, rotateQuestions } from "./quizData"
-import { zusim } from "../utils/zusim"
+// Controller
+import { Screens } from "./interfaces"
+import * as store from "./store"
+import * as questions from "../models/questions"
+import { sound } from "../models/preload"
+import { endModalData } from "../models/presets"
+// import * as yaGames from "../models/yaGames"
 
-const rightSound = new Audio(rightSoundPath)
-const wrongSound = new Audio(wrongSoundPath)
-const clickSound = new Audio(clickSoundPath)
+export const useQuizStore = store.state
 
-export const useQuizStore = zusim<IState>({
-  screen: Screens.Menu,
-  livesCount: 3,
-  gainsCount: 3,
-  modal: {
-    title: "",
-    message: "",
-    image: "",
-    active: false,
-    role: ModalRoles.Answer,
-  },
-  question: {
-    question: "",
-    message: "",
-    answers: [],
-    image: "",
-  },
-})
+// sound.intro.loop = true
 
-const [set, get] = [useQuizStore.setState, useQuizStore.getState]
-
-export function start(difficulty: number) {
-  setDifficulty(difficulty)
-  setScreen(Screens.Quiz)
-  setQuestion()
-  clickSound.play()
+export function onStart(difficulty: number) {
+  sound.click.play()
+  sound.intro.play()
+  store.setScreen(Screens.Quiz)
+  store.setDifficulty(difficulty)
+  questions.setQuestionNumber(0)
+  store.setProgress(0)
+  store.setQuestion()
 }
 
-function setDifficulty(difficulty: number) {
-  const lives = [3, 2, 1]
-  set((state) => {
-    state.livesCount = lives[difficulty]
-  })
-}
-
-export function setScreen(screen: Screens) {
-  set((state) => {
-    state.screen = screen
-  })
-}
-
-function setQuestion() {
-  set((state) => {
-    state.question = getQuestion()
-  })
-}
-
-export function choiceAnswer(answer: string) {
-  const right = answer === get().question.answers[0]
+export function onChoiceAnswer(answer: string) {
+  const right = store.isRightAnswer(answer)
 
   if (right) {
-    const answer = getAnswer()
-    set((state) => {
-      state.modal = {
-        title: "Правильно!",
-        message: answer.message,
-        image: answer.image,
-        active: true,
-        role: ModalRoles.Answer,
-      }
-    })
-    rightSound.play()
+    sound.right.play()
+    store.setProgress(questions.getProgress())
+    store.setGains(Math.floor((questions.getProgress() + 1e-9) / (100 / 3)))
+    store.setAnswerModal(questions.getAnswer())
   } else {
-    set((state) => {
-      state.livesCount--
-    })
-    wrongSound.play()
+    sound.wrong.play()
+    store.reduceLives(1)
+    if (store.isDefeat()) {
+      sound.defeat.play()
+      store.setEndModal(endModalData.defeat)
+    }
   }
 
   return right
 }
 
-export function nextQuestion() {
-  set((state) => {
-    rotateQuestions()
-    state.modal.active = false
-  })
-  setQuestion()
+export function onAnswerModalOk() {
+  store.disableAllModals()
+
+  if (store.isWin()) {
+    sound.win.play()
+    store.setEndModal(endModalData.win)
+  } else {
+    questions.rotateQuestions()
+    store.setQuestion()
+  }
+}
+
+export function onEndModalOk() {
+  store.disableAllModals()
+  store.setScreen(Screens.Menu)
+  // sound.intro.play()
 }
