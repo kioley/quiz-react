@@ -25,8 +25,8 @@
   "include": [
     "src",
     "vite-env.d.ts",
-    "src/store/interfaces.ts",
-    "src/models/IYaGames.d.ts"
+    "src/store/types.ts",
+    "src/models/yaGames/types.ts"
   ],
   "references": [
     {

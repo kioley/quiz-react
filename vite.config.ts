@@ -1,5 +1,6 @@
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react-swc"
+import { resolve } from "path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,9 +14,9 @@ export default defineConfig({
     },
   },
   base: "",
-  // resolve: {
-  //   alias: {
-  //     "@assets": path.resolve(__dirname, "src/assets"),
-  //   },
-  // },
+  resolve: {
+    alias: {
+      "@assets": resolve("./src/assets/gui"),
+    },
+  },
 })

@@ -1,6 +1,6 @@
+import { images } from "../models/media"
 import { useQuizStore } from "../store"
 import { Button } from "./Button"
-import starImgSrc from "/src/assets/gui/star.png"
 
 export function EndModal({ onModalOk }: { onModalOk: () => void }) {
   const { message, title } = useQuizStore((s) => s.endModal)
@@ -14,7 +14,7 @@ export function EndModal({ onModalOk }: { onModalOk: () => void }) {
         <div className="flex flex-row justify-center">
           {[...Array(gains)].map((_, i) => (
             <div className="m-[3%]" key={i}>
-              <img src={starImgSrc} alt="star" />
+              <img src={images.star} alt="star" />
             </div>
           ))}
         </div>

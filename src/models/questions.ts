@@ -1,11 +1,13 @@
 import data from "../assets/data/friends-quiz-data.json"
 import { shuffle } from "../utils/shuffle"
-import { imagesPreloader } from "../utils/imagesPreloader"
-import { IAnswerModal, IQuestion } from "../store/interfaces"
+import { imagesPreloader } from "../utils/preloaders"
+import { IAnswerModal, IQuestion } from "../store/types"
+import { gameSettings } from "../gameSettings"
 
-const preloadImagesCount = 2
-const imagesPath = "questionImages/"
-const questions = shuffle(data)
+const preloadImagesCount = gameSettings.preloadQuestionImagesCount
+const imagesPath = gameSettings.imagesPath
+
+let questions = shuffle(data)
 const questionImageNames = []
 const answerImageNames = []
 let questionNumber = 0
@@ -34,12 +36,13 @@ export function rotateQuestions(): void {
 
 export function getQuestion(): IQuestion {
   const question = questions[questionNumber]
+  // console.log(questionPreloadedImages.getImageURL())
 
   return {
     question: question.question,
     message: question.message,
     answers: question.answers,
-    image: imagesPath + question.question_image,
+    image: questionPreloadedImages.getImageURL(questionNumber),
   }
 }
 
@@ -49,7 +52,7 @@ export function getAnswer(): IAnswerModal {
     isActive: true,
     title: "Правильно!",
     message: question.message,
-    image: imagesPath + question.answer_image,
+    image: answerPreloadedImages.getImageURL(questionNumber),
   }
 }
 
@@ -59,4 +62,8 @@ export function getProgress(): number {
 
 export function setQuestionNumber(number: number) {
   questionNumber = number
+}
+
+export function shuffleQuestions() {
+  questions = shuffle(questions)
 }

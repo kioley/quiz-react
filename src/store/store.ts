@@ -1,25 +1,33 @@
-import { IAnswerModal, IEndModal, IState, Screens } from "./interfaces"
-import * as questions from "../models/questions"
-import { zusim } from "../utils/zusim"
+import { IAnswerModal, IEndModal, IQuestion, IState, Screens } from "./types"
+// import { zusim } from "../utils/zusim"
+import { create } from "zustand"
+import { immer } from "zustand/middleware/immer"
 
-export const state = zusim<IState>({
-  screen: Screens.Menu,
-  lives: 0,
-  gains: 0,
-  progress: 0,
-  question: questions.getQuestion(),
-  answerModal: {
-    title: "",
-    message: "",
-    isActive: false,
-    image: "",
-  },
-  endModal: {
-    title: "",
-    message: "",
-    isActive: false,
-  },
-})
+export const state = create(
+  immer<IState>(() => ({
+    screen: Screens.Menu,
+    lives: 0,
+    gains: 0,
+    progress: 0,
+    question: {
+      question: "",
+      message: "",
+      answers: [],
+      image: "",
+    },
+    answerModal: {
+      title: "",
+      message: "",
+      isActive: false,
+      image: "",
+    },
+    endModal: {
+      title: "",
+      message: "",
+      isActive: false,
+    },
+  }))
+)
 
 const [set, get] = [state.setState, state.getState]
 
@@ -36,9 +44,9 @@ export function setScreen(screen: Screens) {
   })
 }
 
-export function setQuestion() {
+export function setQuestion(question: IQuestion) {
   set((state) => {
-    state.question = questions.getQuestion()
+    state.question = question
   })
 }
 
@@ -89,4 +97,8 @@ export function setGains(gains: number) {
   set((state) => {
     state.gains = gains
   })
+}
+
+export function getGains() {
+  return get().gains
 }

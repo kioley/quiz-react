@@ -1,4 +1,4 @@
-import { onChoiceAnswer, useQuizStore } from "../store"
+import { controller, useQuizStore } from "../store"
 import { Button } from "./Button"
 
 export function AnswersSet() {
@@ -8,7 +8,11 @@ export function AnswersSet() {
   return (
     <div className="flex flex-col justify-between items-center w-full h-full">
       {answers.map((answer, i) => (
-        <Button key={i} label={answer} onClick={() => onChoiceAnswer(answer)} />
+        <Button
+          key={i}
+          label={answer}
+          onClick={() => controller.onChoiceAnswer(answer)}
+        />
       ))}
     </div>
   )

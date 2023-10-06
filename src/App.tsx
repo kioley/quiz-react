@@ -3,7 +3,7 @@ import { StateRouter } from "../src/components/StateRouter/index.tsx"
 import { Route } from "../src/components/StateRouter/Route.tsx"
 import { Menu } from "../src/components/Menu"
 import { useQuizStore } from "./store/index.ts"
-import { Screens } from "./store/interfaces.ts"
+import { Screens } from "./store/types.ts"
 
 export function App() {
   const screen = useQuizStore((s) => s.screen)

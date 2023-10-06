@@ -1,4 +1,4 @@
-import { IEndModal } from "../store/interfaces"
+import { IEndModal } from "../store/types"
 
 export const endModalData: { win: IEndModal; defeat: IEndModal } = {
   defeat: {

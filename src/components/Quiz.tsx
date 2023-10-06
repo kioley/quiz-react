@@ -1,4 +1,4 @@
-import { onEndModalOk, onAnswerModalOk, useQuizStore } from "../store"
+import { controller, useQuizStore } from "../store"
 import { AnswersSet } from "./AnswersSet"
 import HUD from "./HUD"
 import { AnswerModal } from "./AnswerModal"
@@ -25,8 +25,10 @@ export function Quiz() {
           <AnswersSet />
         </div>
       </div>
-      {isAnswerModalActive && <AnswerModal onModalOk={onAnswerModalOk} />}
-      {isEndModalActive && <EndModal onModalOk={onEndModalOk} />}
+      {isAnswerModalActive && (
+        <AnswerModal onModalOk={controller.onAnswerModalOk} />
+      )}
+      {isEndModalActive && <EndModal onModalOk={controller.onEndModalOk} />}
     </>
   )
 }

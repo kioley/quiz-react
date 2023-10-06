@@ -1,59 +1,70 @@
 // Controller
-import { Screens } from "./interfaces"
+import { Screens } from "./types"
 import * as store from "./store"
 import * as questions from "../models/questions"
-import { sound } from "../models/preload"
-import { endModalData } from "../models/presets"
-// import * as yaGames from "../models/yaGames"
+import { sound } from "../models/media"
+import { endModalData } from "../models/data"
+import { init } from "./init"
 
 export const useQuizStore = store.state
 
-// sound.intro.loop = true
+const dataAPI = init()
 
-export function onStart(difficulty: number) {
-  sound.click.play()
-  sound.intro.play()
-  store.setScreen(Screens.Quiz)
-  store.setDifficulty(difficulty)
-  questions.setQuestionNumber(0)
-  store.setProgress(0)
-  store.setQuestion()
-}
+export const controller = {
+  onStart: (difficulty: number) => {
+    sound.click()
+    sound.intro?.()
+    store.setScreen(Screens.Quiz)
+    store.setDifficulty(difficulty)
+    questions.setQuestionNumber(0)
+    questions.shuffleQuestions()
+    store.setProgress(0)
 
-export function onChoiceAnswer(answer: string) {
-  const right = store.isRightAnswer(answer)
+    store.setQuestion(questions.getQuestion())
+  },
 
-  if (right) {
-    sound.right.play()
-    store.setProgress(questions.getProgress())
-    store.setGains(Math.floor((questions.getProgress() + 1e-9) / (100 / 3)))
-    store.setAnswerModal(questions.getAnswer())
-  } else {
-    sound.wrong.play()
-    store.reduceLives(1)
-    if (store.isDefeat()) {
-      sound.defeat.play()
-      store.setEndModal(endModalData.defeat)
+  onChoiceAnswer: (answer: string) => {
+    const right = store.isRightAnswer(answer)
+
+    if (right) {
+      sound.right()
+      store.setProgress(questions.getProgress())
+      setGains()
+      store.setAnswerModal(questions.getAnswer())
+    } else {
+      sound.wrong()
+      store.reduceLives(1)
+      if (store.isDefeat()) {
+        sound.defeat()
+        store.setEndModal(endModalData.defeat)
+      }
     }
-  }
 
-  return right
+    return right
+  },
+
+  onAnswerModalOk: () => {
+    store.disableAllModals()
+
+    if (store.isWin()) {
+      sound.win()
+      store.setEndModal(endModalData.win)
+    } else {
+      questions.rotateQuestions()
+      store.setQuestion(questions.getQuestion())
+    }
+  },
+
+  onEndModalOk: () => {
+    store.disableAllModals()
+    store.setScreen(Screens.Menu)
+  },
 }
 
-export function onAnswerModalOk() {
-  store.disableAllModals()
-
-  if (store.isWin()) {
-    sound.win.play()
-    store.setEndModal(endModalData.win)
-  } else {
-    questions.rotateQuestions()
-    store.setQuestion()
+function setGains() {
+  const gains = Math.floor((questions.getProgress() + 1e-9) / (100 / 3))
+  if (gains != store.getGains()) {
+    store.setGains(gains)
+    dataAPI?.setGains(gains)
   }
-}
-
-export function onEndModalOk() {
-  store.disableAllModals()
-  store.setScreen(Screens.Menu)
-  // sound.intro.play()
 }
