@@ -6,6 +6,8 @@ import { EndModal } from "./EndModal"
 
 export function Quiz() {
   const question = useQuizStore((s) => s.question)
+  console.log(question.image)
+
   const isEndModalActive = useQuizStore((s) => s.endModal.isActive)
   const isAnswerModalActive = useQuizStore((s) => s.answerModal.isActive)
 

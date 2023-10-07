@@ -8,7 +8,7 @@ import starImgSrc from "/src/assets/gui/star.png"
 import heartImgSrc from "/src/assets/gui/heart.png"
 import quizImgSrc from "/src/assets/images/quiz.png"
 import friendsImgSrc from "/src/assets/images/friends_logo.png"
-import { preloadAsURL } from "../utils/preloaders"
+import { loadBlob } from "../utils/loadBlob"
 import { gameSettings } from "../gameSettings"
 
 export const sound = {
@@ -17,7 +17,7 @@ export const sound = {
   click: createAudio(clickSoundSrc),
   win: createAudio(winSoundSrc),
   defeat: createAudio(defeatSoundSrc),
-  intro: createAudio(
+  music: createAudio(
     introSoundSrc,
     !gameSettings.music,
     gameSettings.loopMusic
@@ -29,7 +29,7 @@ function createAudio(
   disable: boolean | void,
   loop: boolean | void
 ) {
-  const audioPromise = preloadAsURL(url).then((src) => {
+  const audioPromise = loadBlob(url).then((src) => {
     const audio = new Audio(src)
     audio.loop = loop || false
     return audio
@@ -51,5 +51,5 @@ export const images = {
 
 for (const _name in images) {
   const name = _name as keyof typeof images
-  preloadAsURL(images[name]).then((url) => (images[name] = url))
+  loadBlob(images[name]).then((url) => (images[name] = url))
 }

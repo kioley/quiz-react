@@ -13,14 +13,13 @@ const dataAPI = init()
 export const controller = {
   onStart: (difficulty: number) => {
     sound.click()
-    sound.intro?.()
+    sound.music?.()
     store.setScreen(Screens.Quiz)
     store.setDifficulty(difficulty)
-    questions.setQuestionNumber(0)
-    questions.shuffleQuestions()
+    questions.resetNumber()
     store.setProgress(0)
 
-    store.setQuestion(questions.getQuestion())
+    questions.getQuestion().then(store.setQuestion)
   },
 
   onChoiceAnswer: (answer: string) => {
@@ -30,7 +29,7 @@ export const controller = {
       sound.right()
       store.setProgress(questions.getProgress())
       setGains()
-      store.setAnswerModal(questions.getAnswer())
+      questions.getAnswer().then(store.setAnswerModal)
     } else {
       sound.wrong()
       store.reduceLives(1)
@@ -44,20 +43,23 @@ export const controller = {
   },
 
   onAnswerModalOk: () => {
-    store.disableAllModals()
-
     if (store.isWin()) {
       sound.win()
+      store.disableAllModals()
       store.setEndModal(endModalData.win)
     } else {
-      questions.rotateQuestions()
-      store.setQuestion(questions.getQuestion())
+      questions.increaseQuestionNumber()
+      questions
+        .getQuestion()
+        .then(store.setQuestion)
+        .then(store.disableAllModals)
     }
   },
 
   onEndModalOk: () => {
     store.disableAllModals()
     store.setScreen(Screens.Menu)
+    questions.shuffleQuestions()
   },
 }
 
