@@ -11,15 +11,14 @@ export const useQuizStore = store.state
 const dataAPI = init()
 
 export const controller = {
-  onStart: (difficulty: number) => {
+  onStart: async (difficulty: number) => {
     sound.click()
-    sound.music?.()
-    store.setScreen(Screens.Quiz)
-    store.setDifficulty(difficulty)
     questions.resetNumber()
     store.setProgress(0)
-
-    questions.getQuestion().then(store.setQuestion)
+    await questions.getQuestion().then(store.setQuestion)
+    store.setScreen(Screens.Quiz)
+    store.setDifficulty(difficulty)
+    sound.music?.()
   },
 
   onChoiceAnswer: (answer: string) => {
