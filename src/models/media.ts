@@ -29,6 +29,8 @@ function createAudio(
   disable: boolean | void,
   loop: boolean | void
 ) {
+  if (disable) return () => undefined
+
   const audioPromise = loadBlob(url).then((src) => {
     const audio = new Audio(src)
     audio.loop = loop || false
@@ -36,11 +38,9 @@ function createAudio(
   })
 
   return () => {
-    if (!disable) audioPromise.then((audio) => audio.play())
+    audioPromise.then((audio) => audio.play())
   }
 }
-
-console.log(sound.win)
 
 export const images = {
   star: starImgSrc,

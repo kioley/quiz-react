@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// const YaGames = window.YaGames
-// import { YaGames } from "https://yandex.ru/games/sdk/v2"
-
 import { IPlayer } from "./types"
 
 let ysdk
@@ -9,33 +5,29 @@ let player: IPlayer
 let mode: string
 
 export const yaGames = {
-  initGame: () => {
-    window.YaGames.init()
-      .then((_sdk) => {
-        ysdk = _sdk
+  initGame: async () => {
+    ysdk = await window.YaGames.init()
 
-        ysdk.features.LoadingAPI?.ready()
+    ysdk.features.LoadingAPI?.ready()
 
-        ysdk.getPlayer({ scopes: false }).then((_player) => {
-          player = _player
-          mode = player.getMode()
-        })
-        // .catch((err) => {
-        // Ошибка при инициализации объекта Player.
-        // })
-      })
-      .catch(console.error)
+    player = await ysdk.getPlayer({ scopes: false })
+
+    mode = player.getMode()
+
+    return yaGames
   },
 
-  setGains: (data: number): Promise<boolean> | void => {
+  setGains: async (data: number): Promise<boolean> => {
     if (mode != "light") {
-      player.setStats({
+      const res = await player.setStats({
         gains: data,
       })
+      return res
     }
+    return false
   },
 
-  getGains: function (setter: (gains: number) => void): Promise<number> | void {
+  getGains: function (setter: (gains: number) => void): void {
     if (mode != "light") {
       player.getStats().then((s) => setter(s.gains))
     }

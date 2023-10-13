@@ -1,12 +1,8 @@
 import { yaGames } from "../models/yaGames"
-import * as store from "./store"
+// import * as store from "./store"
 import { Platforms, gameSettings } from "../gameSettings"
 
 export function init() {
-  // if (sound.intro) {
-  //   sound.intro.loop = gameSettings.loopMusic
-  // }
-
   let platform
   const platformName = gameSettings.platform
   if (platformName === Platforms.YaGames) {
@@ -15,8 +11,9 @@ export function init() {
     platform = undefined
   }
 
-  platform?.initGame()
-  platform?.getGains(store.setGains)
-  //   store.setGains(gains ? await gains : 0)
+  if (!platform) return
+
+  platform.initGame()
+  // .then((api) => api.getGains(store.setGains))
   return platform
 }

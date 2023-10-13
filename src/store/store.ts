@@ -10,8 +10,7 @@ export const state = create(
     gains: 0,
     progress: 0,
     question: {
-      question: "",
-      message: "",
+      title: "",
       answers: [],
       image: "",
     },

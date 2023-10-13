@@ -9,8 +9,7 @@ export interface IState {
 }
 
 export interface IQuestion {
-  question: string
-  message: string
+  title: string
   answers: string[]
   image: string
 }

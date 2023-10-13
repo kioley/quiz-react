@@ -1,4 +1,3 @@
-// Controller
 import { Screens } from "./types"
 import * as store from "./store"
 import * as questions from "../models/questions"
@@ -8,13 +7,12 @@ import { init } from "./init"
 
 export const useQuizStore = store.state
 
-const dataAPI = init()
+init()
 
 export const controller = {
   onStart: async (difficulty: number) => {
     sound.click()
-    questions.resetNumber()
-    store.setProgress(0)
+    reset()
     await questions.getQuestion().then(store.setQuestion)
     store.setScreen(Screens.Quiz)
     store.setDifficulty(difficulty)
@@ -66,6 +64,12 @@ function setGains() {
   const gains = Math.floor((questions.getProgress() + 1e-9) / (100 / 3))
   if (gains != store.getGains()) {
     store.setGains(gains)
-    dataAPI?.setGains(gains)
+    // dataAPI?.setGains(gains)
   }
+}
+
+function reset() {
+  store.setProgress(0)
+  store.setGains(0)
+  questions.resetNumber()
 }

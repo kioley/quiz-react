@@ -1,11 +1,10 @@
-export enum Platforms {
-  YaGames,
-}
-
 export const gameSettings = {
   platform: undefined,
-  music: false,
+  music: true,
   loopMusic: false,
-  // preloadQuestionImagesCount: 2,
   imagesPath: "/questionImages/",
+}
+
+export enum Platforms {
+  YaGames,
 }
