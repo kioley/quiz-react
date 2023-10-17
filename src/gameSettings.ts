@@ -1,6 +1,6 @@
 export const gameSettings = {
   platform: undefined,
-  music: true,
+  music: false,
   loopMusic: false,
   imagesPath: "/questionImages/",
 }

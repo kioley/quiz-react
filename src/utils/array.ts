@@ -1,4 +1,4 @@
-export function shuffle<T>(array: Array<T>) {
+export function shuffle<T>(array: Array<T>): T[] {
   let currentIndex = array.length,
     randomIndex
 
@@ -14,6 +14,9 @@ export function shuffle<T>(array: Array<T>) {
       array[currentIndex],
     ]
   }
-
   return array
+}
+
+export function createNumArray(count: number) {
+  return Array.from({ length: count }, (_, index) => index)
 }

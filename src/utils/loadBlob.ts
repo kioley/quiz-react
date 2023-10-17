@@ -12,8 +12,10 @@ function cachingDecorator<T, R>(func: (x: T) => R): (x: T) => R {
   return function (x: T) {
     // если кеш содержит такой x,
     if (cache.has(x)) {
+      console.log("get image:", x)
       return cache.get(x) // читаем из него результат
     }
+    console.log("load image:", x)
 
     const result = func(x) // иначе, вызываем функцию
 

@@ -4,14 +4,6 @@ declare global {
     YaGames: {
       init: () => Promise<IYsdk>
     }
-    // media: {
-    //   right: HTMLAudioElement,
-    //   wrong: HTMLAudioElement,
-    //   click: HTMLAudioElement,
-    //   win: HTMLAudioElement,
-    //   defeat: HTMLAudioElement,
-    //   intro: HTMLAudioElement | undefined,
-    // }
   }
 }
 

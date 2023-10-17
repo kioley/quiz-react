@@ -1,4 +1,4 @@
-import { IPlayer } from "./types"
+import { IPlayer } from "./yaGamesTypes"
 
 let ysdk
 let player: IPlayer

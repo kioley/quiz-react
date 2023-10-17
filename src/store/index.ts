@@ -1,75 +1,50 @@
 import { Screens } from "./types"
-import * as store from "./store"
-import * as questions from "../models/questions"
+import * as quizStore from "./quizStore"
+import * as viewStore from "./viewStore"
 import { sound } from "../models/media"
-import { endModalData } from "../models/data"
-import { init } from "./init"
+import { initPlatform } from "../models/platforms"
 
-export const useQuizStore = store.state
-
-init()
+initPlatform()
 
 export const controller = {
   onStart: async (difficulty: number) => {
     sound.click()
-    reset()
-    await questions.getQuestion().then(store.setQuestion)
-    store.setScreen(Screens.Quiz)
-    store.setDifficulty(difficulty)
+    quizStore.start(difficulty)
+    viewStore.setScreen(Screens.Quiz)
     sound.music?.()
   },
 
   onChoiceAnswer: (answer: string) => {
-    const right = store.isRightAnswer(answer)
+    const right = quizStore.answer(answer)
 
     if (right) {
       sound.right()
-      store.setProgress(questions.getProgress())
-      setGains()
-      questions.getAnswer().then(store.setAnswerModal)
+      viewStore.enableModal()
     } else {
       sound.wrong()
-      store.reduceLives(1)
-      if (store.isDefeat()) {
+      if (quizStore.isDefeat()) {
         sound.defeat()
-        store.setEndModal(endModalData.defeat)
+        viewStore.setScreen(Screens.Defeat)
       }
     }
 
     return right
   },
 
-  onAnswerModalOk: () => {
-    if (store.isWin()) {
+  onModalOk: () => {
+    sound.click()
+    viewStore.disableModal()
+    if (quizStore.isWin()) {
       sound.win()
-      store.disableAllModals()
-      store.setEndModal(endModalData.win)
+      viewStore.setScreen(Screens.Win)
     } else {
-      questions.increaseQuestionNumber()
-      questions
-        .getQuestion()
-        .then(store.setQuestion)
-        .then(store.disableAllModals)
+      quizStore.nextQuestion()
     }
   },
 
-  onEndModalOk: () => {
-    store.disableAllModals()
-    store.setScreen(Screens.Menu)
-    questions.shuffleQuestions()
+  onEndOk: () => {
+    sound.click()
+    viewStore.setScreen(Screens.Menu)
+    quizStore.end()
   },
-}
-
-function setGains() {
-  const gains = Math.floor((questions.getProgress() + 1e-9) / (100 / 3))
-  if (gains != store.getGains()) {
-    store.setGains(gains)
-    // dataAPI?.setGains(gains)
-  }
-}
-
-function reset() {
-  store.setProgress(0)
-  store.setGains(0)
-  questions.resetNumber()
 }

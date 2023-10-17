@@ -26,7 +26,7 @@
     "src",
     "vite-env.d.ts",
     "src/store/types.ts",
-    "src/models/yaGames/types.ts"
+    "src/models/platforms/yaGames.d.ts.ts"
   ],
   "references": [
     {

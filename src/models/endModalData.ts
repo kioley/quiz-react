@@ -1,6 +1,4 @@
-import { IEndModal } from "../store/types"
-
-export const endModalData: { win: IEndModal; defeat: IEndModal } = {
+export const endModalData = {
   defeat: {
     title: "Конец",
     message: "Ничего, получится в следующий раз!",

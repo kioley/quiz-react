@@ -1,40 +1,46 @@
 export interface IState {
-  screen: Screens
+  questionIndex: number
   lives: number
   gains: number
-  answerModal: IAnswerModal
-  endModal: IEndModal
-  question: IQuestion
   progress: number
 }
 
 export interface IQuestion {
   title: string
+  message: string
   answers: string[]
-  image: string
+  questionImage: string
+  answerImage: string
 }
 
-export interface IAnswerModal {
-  title: string
-  message: string
-  isActive: boolean
-  // role: ModalRoles
-  image: string
-}
-
-export interface IEndModal {
-  title: string
-  message: string
-  isActive: boolean
+export interface IView {
+  screen: Screens
+  isModalActive: boolean
 }
 
 export enum Screens {
   Menu,
   Quiz,
-}
-
-export enum ModalRoles {
-  Answer,
   Win,
   Defeat,
 }
+
+// export interface IAnswerModal {
+//   title: string
+//   message: string
+//   isActive: boolean
+//   // role: ModalRoles
+//   image: string
+// }
+
+// export interface IEndModal {
+//   title: string
+//   message: string
+//   isActive: boolean
+// }
+
+// export enum ModalRoles {
+//   Answer,
+//   Win,
+//   Defeat,
+// }

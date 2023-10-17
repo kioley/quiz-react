@@ -1,6 +1,6 @@
-import { images } from "../models/media"
-import { controller } from "../store"
-import { Button } from "./Button"
+import { images } from "../../models/media"
+import { controller } from "../../store"
+import { Button } from "../Button"
 // import quizImgUrl from "../assets/images/quiz.png"
 // import logoImgUrl from "../assets/images/friends_logo.png"
 

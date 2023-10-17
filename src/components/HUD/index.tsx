@@ -1,7 +1,7 @@
 import { IconBar } from "./IconBar"
 import { ProgressBar } from "./ProgressBar"
-import { useQuizStore } from "../../store"
 import { images } from "../../models/media"
+import { useQuizStore } from "../../store/quizStore"
 
 function Hud() {
   const gainsCount = useQuizStore((s) => s.gains)

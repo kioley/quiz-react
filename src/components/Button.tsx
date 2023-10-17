@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 
 export function Button({
   label,
@@ -8,15 +15,21 @@ export function Button({
   onClick: () => void
 }) {
   const [disabled, setDisabled] = useState(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const disabled = useRef(false)
 
   const clickHandler = useCallback(() => {
     setDisabled(true)
+    // disabled.current = true
     onClick()
   }, [onClick])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // console.log("pre:", disabled, label)
     setDisabled(false)
+    // console.log("post:", disabled, label)
   }, [label])
+  // console.log("in:", disabled, label)
 
   return (
     <button
