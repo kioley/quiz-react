@@ -12,8 +12,24 @@
 </head>
 
 <body>
+  <!-- <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("./sw.js", { scope: "./" })
+        .then((reg) => {
+          // регистрация сработала
+          console.log("Registration succeeded. Scope is " + reg.scope)
+          reg.update()
+        })
+        .catch((error) => {
+          // регистрация прошла неудачно
+          console.log("Registration failed with " + error)
+
+        })
+    }
+  </script> -->
   <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="/src/main"></script>
 </body>
 
 </html>

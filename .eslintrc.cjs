@@ -1,4 +1,5 @@
 module.exports = {
+  // export default {
   env: { browser: true, es2020: true },
   extends: [
     "eslint:recommended",
@@ -12,5 +13,7 @@ module.exports = {
     "react-refresh/only-export-components": "warn",
     semi: ["error", "never"],
     "no-unexpected-multiline": "error",
+    "no-extra-semi": "off",
+    "@typescript-eslint/no-extra-semi": "error",
   },
 }

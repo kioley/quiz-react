@@ -1,4 +1,5 @@
 export function shuffle<T>(array: Array<T>): T[] {
+  // const array = [...arr]
   let currentIndex = array.length,
     randomIndex
 

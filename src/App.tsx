@@ -1,14 +1,12 @@
-import { Quiz } from "./components/Screens/Quiz.tsx"
-import { StateRouter } from "../src/components/StateRouter/index.tsx"
-import { Route } from "../src/components/StateRouter/Route.tsx"
-import { Menu } from "./components/Screens/Menu.tsx"
-import { Screens } from "./store/types.ts"
-import { Defeat } from "./components/Screens/Defeat.tsx"
-import { Win } from "./components/Screens/Win.tsx"
-import { useViewStore } from "./store/viewStore.ts"
+import { Game } from "./components/Screens/Game"
+import { Menu } from "./components/Screens/Menu"
+import { Screens } from "./store/types"
+import { Defeat } from "./components/Screens/Defeat"
+import { Win } from "./components/Screens/Win"
+import { state } from "./store/store"
 
 export function App() {
-  const screen = useViewStore((s) => s.screen)
+  const screen = state((s) => s.screen)
 
   let view
 
@@ -16,8 +14,8 @@ export function App() {
     case Screens.Menu:
       view = <Menu />
       break
-    case Screens.Quiz:
-      view = <Quiz />
+    case Screens.Game:
+      view = <Game />
       break
     case Screens.Win:
       view = <Win />

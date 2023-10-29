@@ -11,22 +11,23 @@
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "noEmit": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
   "include": [
     "src",
     "vite-env.d.ts",
     "src/store/types.ts",
-    "src/models/platforms/yaGames.d.ts.ts"
+    "src/models/platforms/yaGames.d.ts.ts",
+    "public/sw.js"
   ],
   "references": [
     {

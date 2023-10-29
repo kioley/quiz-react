@@ -1,33 +1,17 @@
-import { controller } from "../store"
-import { useQuizStore } from "../store/quizStore"
+import { quizStore, useQuizStore } from "../store"
 import { Button } from "./Button"
-import questions from "../models/friends-quiz-data.json"
-import { useEffect, useMemo, useState } from "react"
-import { shuffle } from "../utils/array"
-
-const arr = [0, 1, 2, 3]
 
 export function AnswersSet() {
-  const questionIndex = useQuizStore((s) => s.questionIndex)
-  const answers = questions[questionIndex].answers
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const answerIndexes = useMemo(() => shuffle(arr), [questionIndex])
-  console.log("index:", questionIndex)
-
-  // useEffect(() => {
-  //   console.log("pre:", answerIndexes)
-  //   set(shuffle(answerIndexes))
-  //   console.log("post:", answerIndexes)
-  // }, [questionIndex])
-  // console.log("in:", answerIndexes)
+  const answers = useQuizStore((s) => s.question.answers)
 
   return (
     <div className="flex flex-col justify-between items-center w-full h-full">
-      {answerIndexes.map((i) => (
+      {answers.map((answer, i) => (
         <Button
           key={i}
-          label={answers[i] + i.toString()}
-          onClick={() => controller.onChoiceAnswer(answers[i])}
+          label={answer.title + (answer.right ? "!!!!!!!" : "")}
+          onClick={() => quizStore.onChoiceAnswer(answer.right)}
+          disabled={answer.disabled}
         />
       ))}
     </div>

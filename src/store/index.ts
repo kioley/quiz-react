@@ -1,50 +1,52 @@
 import { Screens } from "./types"
-import * as quizStore from "./quizStore"
-import * as viewStore from "./viewStore"
+import * as store from "./store"
 import { sound } from "../models/media"
 import { initPlatform } from "../models/platforms"
 
-initPlatform()
+export { state as useQuizStore } from "./store"
 
-export const controller = {
-  onStart: async (difficulty: number) => {
+initPlatform()
+const lives = [3, 2, 1]
+
+export const quizStore = {
+  async onStart(difficulty: number) {
     sound.click()
-    quizStore.start(difficulty)
-    viewStore.setScreen(Screens.Quiz)
+    store.setLives(lives[difficulty])
+    store.loadQuestion()
+    store.setScreen(Screens.Game)
     sound.music?.()
   },
 
-  onChoiceAnswer: (answer: string) => {
-    const right = quizStore.answer(answer)
-
+  onChoiceAnswer: (right: boolean) => {
     if (right) {
       sound.right()
-      viewStore.enableModal()
+      store.setProgress()
+      store.showModal()
     } else {
       sound.wrong()
-      if (quizStore.isDefeat()) {
+      store.setLives((l) => --l)
+      if (store.isDefeat()) {
         sound.defeat()
-        viewStore.setScreen(Screens.Defeat)
+        store.setScreen(Screens.Defeat)
       }
     }
-
-    return right
   },
 
   onModalOk: () => {
     sound.click()
-    viewStore.disableModal()
-    if (quizStore.isWin()) {
+    store.hideModal()
+    if (store.isWin()) {
       sound.win()
-      viewStore.setScreen(Screens.Win)
+      store.setScreen(Screens.Win)
     } else {
-      quizStore.nextQuestion()
+      store.nextStep()
+      store.loadQuestion()
     }
   },
 
   onEndOk: () => {
     sound.click()
-    viewStore.setScreen(Screens.Menu)
-    quizStore.end()
+    store.setScreen(Screens.Menu)
+    store.reset()
   },
 }

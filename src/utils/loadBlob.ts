@@ -23,3 +23,19 @@ function cachingDecorator<T, R>(func: (x: T) => R): (x: T) => R {
     return result
   }
 }
+
+// const cache = new Map()
+// export async function loadBlobWithCache(url: string): Promise<string> {
+//   console.log(url)
+//   console.log(cache.get(url))
+
+//   if (cache.has(url)) {
+//     return cache.get(url)
+//   }
+
+//   const blobUrl = await loadBlob(url)
+
+//   cache.set(url, blobUrl)
+
+//   return blobUrl
+// }
