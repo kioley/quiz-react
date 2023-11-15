@@ -9,7 +9,7 @@ export function AnswersSet() {
       {answers.map((answer, i) => (
         <Button
           key={i}
-          label={answer.title + (answer.right ? "!!!!!!!" : "")}
+          label={answer.title}
           onClick={() => quizStore.onChoiceAnswer(answer.right)}
           disabled={answer.disabled}
         />

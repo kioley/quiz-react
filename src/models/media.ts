@@ -5,8 +5,6 @@ import winSoundSrc from "../assets/audio/win.mp3"
 import defeatSoundSrc from "../assets/audio/defeat.mp3"
 import introSoundSrc from "../assets/audio/Intro.mp3"
 import { gameSettings } from "../settings"
-const questionImages = import.meta.glob("/src/assets/questionImages/*")
-console.log(questionImages)
 
 export const sound = {
   right: createAudio(rightSoundSrc),

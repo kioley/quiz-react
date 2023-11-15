@@ -5,9 +5,9 @@ export const gameSettings: {
   imagesPath: string
   preloadImagesCount: number
 } = {
-  platform: undefined,
-  music: false,
+  platform: "YaGames",
+  music: true,
   loopMusic: false,
   imagesPath: "/questionImages/",
-  preloadImagesCount: 2
+  preloadImagesCount: 2,
 }
