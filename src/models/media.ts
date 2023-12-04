@@ -4,7 +4,7 @@ import clickSoundSrc from "../assets/audio/click.mp3"
 import winSoundSrc from "../assets/audio/win.mp3"
 import defeatSoundSrc from "../assets/audio/defeat.mp3"
 import introSoundSrc from "../assets/audio/Intro.mp3"
-import { gameSettings } from "../settings"
+import gameSettings from "../settings.json"
 
 export const sound = {
   right: createAudio(rightSoundSrc),
@@ -15,6 +15,7 @@ export const sound = {
   music: createAudio(
     introSoundSrc,
     !gameSettings.music,
+    gameSettings.musicVolume,
     gameSettings.loopMusic
   ),
 }
@@ -22,12 +23,14 @@ export const sound = {
 function createAudio(
   url: string,
   disable: boolean | void,
+  volume: number | void,
   loop: boolean | void
 ) {
   if (disable) return () => undefined
 
   const audio = new Audio(url)
   audio.loop = loop || false
+  volume && (audio.volume = volume)
 
   return () => {
     audio.play()

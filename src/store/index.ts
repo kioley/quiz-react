@@ -1,11 +1,10 @@
 import { Screens } from "./types"
 import * as store from "./store"
 import { sound } from "../models/media"
-import { initPlatform } from "../models/platforms"
+import { platform } from "../models/platforms"
 
 export { state as useQuizStore } from "./store"
 
-initPlatform()
 const lives = [3, 2, 1]
 
 export const quizStore = {
@@ -44,9 +43,13 @@ export const quizStore = {
     }
   },
 
-  onEndOk: () => {
+  async onEndOk() {
     sound.click()
     store.setScreen(Screens.Menu)
+    await platform.onEnd()
+    console.log(store.isWin())
+
+    store.isWin() && (await platform.onWin())
     store.reset()
   },
 }

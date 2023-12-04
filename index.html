@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Friends Quiz</title>
   <!-- Yandex Games SDK -->
-  <!-- <script src="https://yandex.ru/games/sdk/v2"></script> -->
+  <!-- <script id="platform" src="https://yandex.ru/games/sdk/v2"></script> -->
 
 </head>
 
@@ -28,8 +28,26 @@
         })
     }
   </script> -->
-  <div id="root"></div>
+  <div id="root">
+    <div id="wrapper">
+      <p id="loading">Загрузка...</p>
+    </div>
+  </div>
   <script type="module" src="/src/main"></script>
 </body>
+<style>
+  #wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+  }
+
+  #loading {
+    font: 5vh sans-serif;
+    color: fuchsia;
+  }
+</style>
 
 </html>

@@ -1,3 +1,5 @@
 export interface IPlatform {
-  initGame: () => Promise<IPlatform>
+  init(): Promise<IPlatform>
+  onEnd(): Promise<void>
+  onWin(): Promise<void>
 }

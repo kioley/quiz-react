@@ -4,7 +4,7 @@ import { immer } from "zustand/middleware/immer"
 import { createNumArray, shuffle } from "../utils/array"
 import { getPercent } from "../utils/etc"
 import questions from "../models/friends-quiz-data.json"
-import { gameSettings } from "../settings"
+import gameSettings from "../settings.json"
 import { loadBlobWithCache } from "../utils/loadBlob"
 
 const questionIndexes = shuffle(createNumArray(questions.length))
@@ -28,7 +28,7 @@ const [set, get] = [state.setState, state.getState]
 function getQuestion(questionImage: string, answerImage: string): IQuestion {
   const data = questions[questionIndexes[step]]
   return {
-    title: data.title,
+    title: data.question,
     message: data.message,
     answerImage: answerImage,
     questionImage: questionImage,
@@ -105,8 +105,8 @@ export async function loadQuestion() {
 function loadImages(step: number): [Promise<string>, Promise<string>] {
   const question = questions[questionIndexes[step]]
   return [
-    loadBlobWithCache(imagesPath + question.questionImage),
-    loadBlobWithCache(imagesPath + question.answerImage),
+    loadBlobWithCache(imagesPath + question.id + ".jpg"),
+    loadBlobWithCache(imagesPath + "0" + question.id + ".jpg"),
   ]
 }
 

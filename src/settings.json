@@ -1,0 +1,8 @@
+{
+  "platform": "YaGames",
+  "music": true,
+  "loopMusic": false,
+  "musicVolume": 0.5,
+  "imagesPath": "/questionImages/",
+  "preloadImagesCount": 2
+}
